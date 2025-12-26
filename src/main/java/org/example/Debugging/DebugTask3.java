@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Debugging;
 
 public class DebugTask3 {
     public static void main(String[] args) {
