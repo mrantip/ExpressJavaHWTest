@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Debugging;
 
 import java.util.*;
 
