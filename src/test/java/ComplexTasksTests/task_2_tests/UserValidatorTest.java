@@ -3,6 +3,7 @@ package ComplexTasksTests.task_2_tests;
 import org.example.ComplexTasks.task_2.InvalidUserException;
 import org.example.ComplexTasks.task_2.User;
 import org.example.ComplexTasks.task_2.UserValidator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,6 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserValidatorTest {
     private UserValidator validator = new UserValidator();
+
+    @BeforeEach
+    void resetValidationFlag() {
+        UserValidator.validationEnabled = true;
+    }
 
     @Test
     @DisplayName("Проверка валидного юзера")

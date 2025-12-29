@@ -17,7 +17,7 @@ public class MovieService<T extends Number> {
         ratings.computeIfAbsent(movie, k -> new ArrayList<>()).add(rating);
     }
 
-    public double getAverageRating(Movie movie) {
+    public synchronized double getAverageRating(Movie movie) {
         List<Rating<T>> movieRatings = ratings.get(movie);
         if (movieRatings == null || movieRatings.isEmpty()) {
             throw new IllegalArgumentException("Нет оценок для фильма");
@@ -28,7 +28,7 @@ public class MovieService<T extends Number> {
                 .orElse(0.0);
     }
 
-    public List<Movie> getSortedMovieByRating() {
+    public synchronized List<Movie> getSortedMovieByRating() {
         return ratings.entrySet().stream()
                 .filter(e -> !e.getValue().isEmpty())
                 .sorted((e1, e2) -> Double.compare(average(e2.getValue()), average(e1.getValue())))
@@ -36,7 +36,7 @@ public class MovieService<T extends Number> {
                 .collect(Collectors.toList());
     }
 
-    public double average(List<Rating<T>> ratings) {
+    private double average(List<Rating<T>> ratings) {
         return ratings.stream()
                 .mapToDouble(r -> r.getValue().doubleValue())
                 .average()

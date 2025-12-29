@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class InventoryService {
-    private final Map<String, List<Product>> inventory = new ConcurrentHashMap<>();
+    private final Map<String, CopyOnWriteArrayList<Product>> inventory = new ConcurrentHashMap<>();
     private boolean inventoryIsOpen = true;
 
     public void setInventoryIsOpen(boolean open) {
@@ -16,11 +17,11 @@ public class InventoryService {
 
     public synchronized void addProduct(Product product) {
         if (!inventoryIsOpen) return;
-        inventory.computeIfAbsent(product.getCategory(), k -> new ArrayList<>()).add(product);
+        inventory.computeIfAbsent(product.getCategory(), k -> new CopyOnWriteArrayList<>()).add(product);
     }
 
     public synchronized Product getProductByCategory(String category) {
-        List<Product> products = inventory.get(category);
+        CopyOnWriteArrayList<Product> products = inventory.get(category);
         if (products == null || products.isEmpty()) {
             throw new OutOfStockException("Товары в категории " + category + " отсутствуют.");
         }
@@ -35,6 +36,7 @@ public class InventoryService {
     }
 
     public List<Product> getAllProductsByCategory(String category) {
-        return new ArrayList<>(inventory.getOrDefault(category, List.of()));
+        List<Product> products = inventory.get(category);
+        return products != null ? new ArrayList<>(products) : List.of();
     }
 }

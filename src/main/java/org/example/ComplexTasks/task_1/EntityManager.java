@@ -27,7 +27,7 @@ public class EntityManager<T extends Entity> {
 
     public List<T> filterByName(String name) {
         return entities.stream()
-                .filter(entity -> entity.getName().equals(name))
+                .filter(entity -> entity.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
 

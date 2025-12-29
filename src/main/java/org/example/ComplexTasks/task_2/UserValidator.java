@@ -4,10 +4,10 @@ import java.util.regex.Pattern;
 
 public class UserValidator {
     public static boolean validationEnabled = true;
-    public static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$");
 
     public void validate(User user) {
-        if (!validationEnabled) return;
+        if (!validationEnabled || user == null) return;
         validateName(user.getName());
         validateAge(user.getAge());
         validateEmail(user.getEmail());
