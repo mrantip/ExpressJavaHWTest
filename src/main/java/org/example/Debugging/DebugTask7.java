@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Debugging;
 
 public class DebugTask7 {
     //потоки одновременно проверяли баланс и проходили проверку. Добавил синхронизацию и сообщение при невозможности извлечь
